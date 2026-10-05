@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ARTICLE DESCRIPTION" />
+    <meta name="author" content="LitHack" />
+    <title>Old school SQL injection, how a quote gave me admin access</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/article.css" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  </head>
+
+  <body>
+    <div class="progress" id="progress"></div>
+
+    <header id="header">
+      <div class="wrap">
+        <nav>
+          <a class="logo" href="../index.html"
+            ><span class="dot"></span>117h4ck0.</a
+          >
+          <div class="links">
+            <a href="index.html">Writing</a>
+            <a href="../index.html#about">About</a>
+            <button
+              class="theme"
+              id="theme"
+              aria-label="Switch to dark mode"
+              title="Switch to dark mode"
+            >
+              <span class="theme-icon moon">☾</span>
+              <span class="theme-icon sun">☼</span>
+            </button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="article-page">
+      <div class="article-container">
+        <a class="back-link" href="index.html">← BACK TO WRITING</a>
+
+        <header class="article-header">
+          <div class="article-meta">web · 5 OCT 2026 · 10 MIN</div>
+
+          <h1>Old school SQL injection, a quote to government portal's admin access</h1>
+
+          <p class="article-subtitle">
+            found a sql injection vulnerability in a top indian gov website, and
+            able to access the admin panel.
+          </p>
+        </header>
+
+        <!-- OPTIONAL COVER IMAGE
+    <figure class="article-cover">
+      <img src="../assets/images/YOUR-FOLDER/cover.webp" alt="Description">
+    </figure>
+    -->
+
+        <article class="article-content">
+          <p><h4>Note:</h4>Before going further, I want to make it clear that I will not be publishing the real website details, domain, credentials, or sensitive technical information in this write-up. Government websites can take considerable time to patch publicly reported vulnerabilities, and publishing those details before remediation could unnecessarily expose the affected system to further abuse.
+
+I have already responsibly disclosed the vulnerability to the CERT-In team and provided the relevant information needed for investigation and remediation.</p>
+
+          <h2>How I came around the website</h2>
+
+          <p>
+           I know that many Indian government websites are quite old and are not properly maintained. So, I thought of using Google dorking to identify different Indian government websites that might have interesting endpoints and potentially serious security issues. The first thing that came to my mind was login functionality, so I created a few Google dorks to search for publicly accessible login pages. 
+            </p>
+            <div class="code-block">
+            <button class="copy-code" type="button">COPY</button>
+            <pre><code>inurl:login.php or inurl login.aspx </code></pre>
+          </div>
+           <h2>Exploitation</h2>
+           <p>
+          Now that I had found a number of potentially interesting pages to test, I decided to take one of the websites and start looking for SQL Injection vulnerabilities. The login page itself didn't appear to be vulnerable, but while going through the different pages of the website, I came across a page that allowed users to check the status of a complaint using their complaint ID.
+
+That immediately caught my attention.
+
+I decided to test the `complaint_id` parameter. When I entered a normal value, such as `1`, the application responded normally. But when I appended a single quote (`'`) to the parameter, the application broke and returned an SQL-related error:
+
+<code>'. Incorrect syntax near '' '</code>
+
+That was the first strong indication that the input was being incorporated into a backend SQL query without being handled safely.
+
+At that point, my suspicion of SQL Injection became much stronger. I then performed a controlled time-based test  <code>' AND SLEEP(5)-- -</code> to determine whether the database query could be influenced by the input. The application's response behavior confirmed that the parameter was vulnerable to SQL Injection.
+
+What initially looked like a simple complaint-status parameter had turned out to be an unexpected entry point into the application's backend.
+          </p>
+           <h2>Dumping the Database</h2>
+           <p>
+           After confirming the vulnerability, I decided to assess how much access the SQL Injection could provide. Using `sqlmap`, I was able to enumerate the database and identify its name and available tables.
+
+I then focused on the users table to understand what kind of sensitive information was being stored. The results were more serious than I expected: the table contained an administrator username along with the corresponding password in <b>clear text.</b>
+
+This revealed another major security issue:
+
+<i>Another bad security practice — storing passwords in plain text in the database.</i>
+
+Passwords should never be stored in their original form. They should be protected using a strong, modern password-hashing algorithm with appropriate salting and configuration. In this case, however, anyone who gained sufficient database access could potentially read the credentials directly.
+
+The SQL Injection had therefore exposed more than database metadata. It had led to the disclosure of credentials that could potentially provide access to privileged functionality. 
+          </p>
+           <img src="../assets/images/sql/carbon.png" alt="img">
+           <br>
+           <img src="../assets/images/sql/image2.png" alt="img">
+          <h2>Accessing the Admin Panel</h2>
+          <p>
+            With the administrator username and password obtained during the investigation, I proceeded to verify whether the credentials actually provided access to the application's administrative interface.
+
+I entered the credentials into the admin login page, and, to my surprise, the authentication was successful.
+
+I now had access to the administrative control panel.
+          </p>
+
+          <h2>Final Thoughts</h2>
+
+          <p>This experience highlights the need for government agencies to take the security and maintenance of their public-facing websites more seriously. Vulnerabilities such as SQL Injection can have consequences far beyond a single compromised application. If exploited by malicious actors, they could potentially result in financial losses, legal consequences, data exposure, and significant damage to public trust and reputation.
+
+What concerns me even more is that this did not appear to be an isolated case. During my research, I came across approximately 8–10 websites with similar security issues.
+
+This should be treated as a serious warning sign. Government websites often handle sensitive information and provide services that millions of citizens depend on. They therefore require regular security assessments, timely patching, secure coding practices, proper credential storage, and continuous monitoring.</p>
+        </article>
+
+        <!-- OPTIONAL: update these links for each article
+-->
+      </div>
+    </main>
+
+    <footer>
+      <div class="wrap foot">
+        <span>© 2026 117h4ck0</span>
+        <span>MADE WITH CURIOSITY.</span>
+      </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/article.js"></script>
+  </body>
+</html>
