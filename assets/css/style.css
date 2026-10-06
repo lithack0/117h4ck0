@@ -790,3 +790,44 @@ footer {
     margin-bottom: 70px;
   }
 }
+/* =========================================
+   MOBILE NAVIGATION
+========================================= */
+
+@media (max-width: 760px) {
+  header nav {
+    min-height: 70px;
+    height: auto;
+    padding: 16px 0;
+    gap: 14px;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+
+  /* Show ALL navigation links on mobile */
+  .links a:nth-child(2) {
+    display: inline-block;
+  }
+
+  .links a {
+    font-size: 0.64rem;
+    white-space: nowrap;
+  }
+
+  /* Smaller theme button */
+  .theme {
+    flex-shrink: 0;
+    width: 42px;
+    height: 28px;
+  }
+
+  .theme .theme-icon {
+    font-size: 14px;
+  }
+}
