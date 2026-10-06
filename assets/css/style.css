@@ -586,3 +586,207 @@ footer {
     min-height: 200px;
   }
 }
+
+/* =========================================
+   NOTES & THOUGHTS
+========================================= */
+
+.ideas-section {
+  margin-top: 120px;
+  padding-top: 80px;
+  border-top: 1px solid var(--line);
+}
+
+.ideas-list {
+  margin-top: 35px;
+  border-top: 1px solid var(--line);
+}
+
+.idea {
+  display: grid;
+  grid-template-columns: 55px minmax(0, 1fr) 30px;
+  gap: 25px;
+  align-items: start;
+
+  padding: 30px 0;
+
+  border-bottom: 1px solid var(--line);
+
+  color: var(--ink);
+  text-decoration: none;
+
+  transition:
+    padding-left 0.25s ease,
+    background 0.25s ease;
+}
+
+.idea:hover {
+  padding-left: 10px;
+}
+
+.idea-number {
+  padding-top: 4px;
+
+  color: var(--muted);
+
+  font: 500 0.65rem var(--mono);
+}
+
+.idea-body {
+  min-width: 0;
+}
+
+.idea-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  margin-bottom: 12px;
+
+  color: var(--muted);
+
+  font: 500 0.58rem var(--mono);
+  letter-spacing: 0.04em;
+}
+
+.idea h3 {
+  margin: 0 0 10px;
+
+  color: var(--ink);
+
+  font: 500 clamp(1.45rem, 2.3vw, 2rem)/1.2 var(--display);
+
+  letter-spacing: -0.02em;
+}
+
+.idea p {
+  max-width: 700px;
+
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.idea-arrow {
+  padding-top: 4px;
+
+  color: var(--muted);
+
+  transition: transform 0.2s ease;
+}
+
+.idea:hover .idea-arrow {
+  transform: translate(3px, -3px);
+}
+
+/* =========================================
+   NOTES & THOUGHTS — MOBILE
+========================================= */
+
+@media (max-width: 760px) {
+  .ideas-section {
+    margin-top: 75px;
+    padding-top: 55px;
+  }
+
+  .ideas-list {
+    margin-top: 25px;
+  }
+
+  .idea {
+    grid-template-columns: 32px minmax(0, 1fr) 20px;
+    gap: 12px;
+
+    padding: 24px 0;
+  }
+
+  .idea:hover {
+    padding-left: 0;
+  }
+
+  .idea-meta {
+    gap: 10px;
+
+    font-size: 0.55rem;
+  }
+
+  .idea h3 {
+    font-size: 1.35rem;
+  }
+
+  .idea p {
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+
+  .idea-arrow {
+    font-size: 0.9rem;
+  }
+}
+/* =========================================
+   NOTES & THOUGHTS PAGE
+========================================= */
+
+.ideas-page-hero {
+  padding: 110px 0 80px;
+  max-width: 850px;
+}
+
+.ideas-page-hero .label {
+  margin-bottom: 25px;
+}
+
+.ideas-page-hero h1 {
+  margin: 0;
+
+  font: 500 clamp(3.5rem, 8vw, 7rem)/0.95 var(--display);
+
+  letter-spacing: -0.055em;
+}
+
+.ideas-page-hero h1 em {
+  font-weight: 500;
+}
+
+.ideas-page-hero p {
+  max-width: 650px;
+
+  margin: 35px 0 0;
+
+  color: var(--muted);
+
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.ideas-page-list {
+  margin-bottom: 120px;
+
+  border-top: 1px solid var(--line);
+}
+
+/* Mobile */
+
+@media (max-width: 760px) {
+  .ideas-page-hero {
+    padding: 70px 0 55px;
+  }
+
+  .ideas-page-hero h1 {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .ideas-page-hero p {
+    margin-top: 25px;
+
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .ideas-page-list {
+    margin-bottom: 70px;
+  }
+}
