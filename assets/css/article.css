@@ -174,3 +174,108 @@ body.dark .article-content li {
     font-size: 0.72rem;
   }
 }
+
+@media (max-width: 760px) {
+  .code-block pre {
+    padding: 52px 16px 18px;
+    font-size: 0.72rem;
+  }
+
+  .copy-code {
+    top: 8px;
+    right: 8px;
+    padding: 5px 9px;
+    font-size: 0.58rem;
+  }
+}
+/* Article images */
+.article-content img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 32px auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper-2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  object-fit: contain;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Subtle hover effect */
+.article-content img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+  border-color: var(--muted);
+}
+
+/* Consecutive images */
+.article-content img + br + img {
+  margin-top: 18px;
+}
+
+/* Dark mode */
+body.dark .article-content img {
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+  .article-content img {
+    width: 100%;
+    margin: 24px auto;
+    border-radius: 9px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+  }
+
+  .article-content img:hover {
+    transform: none;
+  }
+}
+.article-images {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin: 35px 0;
+}
+
+.article-images img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper-2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.article-images img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.13);
+}
+
+body.dark .article-images img {
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 760px) {
+  .article-images {
+    gap: 16px;
+    margin: 25px 0;
+  }
+
+  .article-images img {
+    border-radius: 9px;
+  }
+
+  .article-images img:hover {
+    transform: none;
+  }
+}
